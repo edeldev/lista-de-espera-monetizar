@@ -1,3 +1,5 @@
+import { TForm } from "@/types";
+
 export interface ITypedText {
   typedText: string;
 }
@@ -8,6 +10,8 @@ export interface IButtonEnterMobile {
 
 export interface IStepInput {
   step: "email" | "phone" | "name";
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  formData: TForm;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
 }

@@ -7,7 +7,7 @@ import { useTypingEffect } from "@/hooks";
 export const HomePage = () => {
   const [showForm, setShowForm] = useState(false);
 
-  const fullText = `Hola, te habla Mauricio Soto.
+  const fullText = `Hola, te habla @soymausoto.
 El tiempo es limitado.
 
 Estás a un paso de unirte a una auténtica revolución de monetizadores en Facebook.

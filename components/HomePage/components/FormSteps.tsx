@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { TStep } from "@/types";
 import { StepInput } from "./StepInput";
+import { emailRegex, phoneRegex } from "@/utils";
 
 const stepLabels: Record<string, string> = {
   email: "Ingresa tu correo",
@@ -13,12 +14,26 @@ const stepLabels: Record<string, string> = {
 
 export const FormSteps = () => {
   const [step, setStep] = useState<TStep>("email");
-  const [formData, setFormData] = useState({ email: "", phone: "", name: "" });
+  const [formData, setFormData] = useState({
+    email: "",
+    prefix: "+49",
+    phone: "",
+    name: "",
+  });
   const [error, setError] = useState("");
 
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(""), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -27,13 +42,13 @@ export const FormSteps = () => {
     setError("");
 
     if (step === "email") {
-      if (!formData.email.includes("@")) {
+      if (!emailRegex.test(formData.email)) {
         setError("Ingresa un correo válido");
         return;
       }
       setStep("phone");
     } else if (step === "phone") {
-      if (!formData.phone || formData.phone.length < 5) {
+      if (!formData.phone || !phoneRegex.test(formData.phone)) {
         setError("Ingresa un número válido");
         return;
       }
@@ -58,17 +73,17 @@ export const FormSteps = () => {
       <h2 className="text-sm font-semibold mb-2">{stepLabels[step]}</h2>
 
       <div className="mb-4">
-        <StepInput step={step} value={formData[step]} onChange={handleChange} />
+        <StepInput step={step} formData={formData} onChange={handleChange} />
       </div>
 
       {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
 
-      <div className="flex gap-4 justify-between">
+      <div className="flex flex-wrap md:flex-nowrap gap-4 justify-between">
         {step !== "email" && (
           <button
             type="button"
             onClick={goBack}
-            className="px-4 py-2 bg-gray-50 rounded hover:bg-gray-50/80 hover:[transform:translateY(-1px)] text-black transition-all cursor-pointer"
+            className="w-full md:w-fit px-4 py-2 bg-gray-50 rounded hover:bg-gray-50/80 hover:[transform:translateY(-1px)] text-black transition-all cursor-pointer"
           >
             Atrás
           </button>
