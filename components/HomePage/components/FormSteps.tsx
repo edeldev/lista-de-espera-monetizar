@@ -21,6 +21,7 @@ export const FormSteps = () => {
     name: "",
   });
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -38,7 +39,7 @@ export const FormSteps = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const nextStep = () => {
+  const nextStep = async () => {
     setError("");
 
     if (step === "email") {
@@ -58,7 +59,23 @@ export const FormSteps = () => {
         setError("Ingresa tu nombre");
         return;
       }
-      router.push(`/confirmado?name=${encodeURIComponent(formData.name)}`);
+
+      try {
+        setIsLoading(true);
+
+        await fetch("/api/save-to-sheets", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+
+        router.push(`/confirmado?name=${encodeURIComponent(formData.name)}`);
+      } catch (err) {
+        console.error(err);
+        setError("Hubo un error al guardar los datos, inténtalo más tarde");
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -92,12 +109,19 @@ export const FormSteps = () => {
         <button
           type="button"
           onClick={nextStep}
-          className="px-4 py-2 bg-primary text-black rounded transition-all duration-300
-          hover:[filter:brightness(1.1)]
-          hover:[transform:translateY(-1px)]
-          hover:[box-shadow:0_8px_25px_rgba(0,255,156,0.2)] w-full cursor-pointer"
+          disabled={isLoading}
+          className={`px-4 py-2 bg-primary text-black rounded transition-all duration-300
+            hover:[filter:brightness(1.1)]
+            hover:[transform:translateY(-1px)]
+            hover:[box-shadow:0_8px_25px_rgba(0,255,156,0.2)]
+            w-full cursor-pointer
+            ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
-          {step === "name" ? "Finalizar" : "Continuar"}
+          {isLoading
+            ? "Enviando..."
+            : step === "name"
+            ? "Finalizar"
+            : "Continuar"}
         </button>
       </div>
     </div>
