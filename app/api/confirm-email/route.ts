@@ -39,6 +39,7 @@ export async function GET(req: Request) {
           Obtener regalo
         </a>
       </div>
+      <p>Si no puedes hacer clic, copia y pega este enlace en tu navegador: <br/> ${gift}</p>
       </div>
     `,
   };

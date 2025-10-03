@@ -37,7 +37,7 @@ export async function POST(req: Request) {
         </a>
       </div>
 
-     <p>Si no puedes hacer clic, copia y pega este enlace en tu navegador: <br/> ${confirmUrl}</p> ,
+     <p>Si no puedes hacer clic, copia y pega este enlace en tu navegador: <br/> ${confirmUrl}</p>
     </div>
     `,
   };
