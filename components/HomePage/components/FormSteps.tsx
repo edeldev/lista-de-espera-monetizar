@@ -69,6 +69,12 @@ export const FormSteps = () => {
           body: JSON.stringify(formData),
         });
 
+        await fetch("/api/send-confirmation", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: formData.email, name: formData.name }),
+        });
+
         router.push(`/confirmado?name=${encodeURIComponent(formData.name)}`);
       } catch (err) {
         console.error(err);

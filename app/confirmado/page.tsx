@@ -14,6 +14,8 @@ const ConfirmadoPage = () => {
 
 TU SOLICITUD HA SIDO APROBADA. ¡Bienvenid@!
 
+Solo falta un único paso.
+
 👉 Paso 1: En menos de 1 minuto recibirás un email.
 
 Ábrelo y haz clic en el enlace que contiene.
