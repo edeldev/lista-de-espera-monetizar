@@ -36,7 +36,7 @@ export const StepInput = ({ step, formData, onChange }: IStepInput) => {
           value={formData.phone}
           onChange={onChange}
           placeholder={placeholders[step]}
-          className="w-full p-3 bg-input-neon border-neon text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full p-3 bg-input-neon border-neon text-sm focus:outline-none focus:ring-2 focus:ring-primary"
         />
       </div>
     );
@@ -49,7 +49,7 @@ export const StepInput = ({ step, formData, onChange }: IStepInput) => {
       value={formData[step]}
       onChange={onChange}
       placeholder={placeholders[step]}
-      className="w-full p-3 bg-input-neon border-neon text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+      className="w-full p-3 bg-input-neon border-neon text-sm focus:outline-none focus:ring-2 focus:ring-primary"
     />
   );
 };
